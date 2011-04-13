@@ -1,0 +1,19 @@
+Description: Use the system hg-fast-export executable
+Author: Andrey Rahmatullin <wrar@wrar.name>
+Forwarded: not-needed
+Last-Update: 2011-04-13
+
+diff --git a/bin/git-hg b/bin/git-hg
+index 9297304..8b64dad 100755
+--- a/bin/git-hg
++++ b/bin/git-hg
+@@ -35,8 +35,7 @@ function canonicalize {
+     printf "%s/%s\n" "$cdir" "$file"
+ }
+ 
+-GITHG_HOME=$($canon $(dirname $($canon $0))/..)
+-HG_FAST_EXPORT=$GITHG_HOME/fast-export/hg-fast-export.sh
++HG_FAST_EXPORT=/usr/bin/hg-fast-export
+ 
+ function git-current-branch {
+     git branch | egrep '^[*]' | sed 's/^\* \(.\)/\1/'

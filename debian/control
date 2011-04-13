@@ -1,0 +1,21 @@
+Source: git-hg
+Section: vcs
+Priority: optional
+Maintainer: Andrey Rahmatullin <wrar@wrar.name>
+Build-Depends: debhelper (>= 8)
+Standards-Version: 3.9.2
+Homepage: https://github.com/barak/git-hg
+Vcs-Git: git://git.debian.org/collab-maint/git-hg.git
+Vcs-Browser: http://git.debian.org/?p=collab-maint/git-hg.git;a=summary
+
+Package: git-hg
+Architecture: all
+Depends: ${misc:Depends}, hg-fast-export
+Description: Script to track mercurial repositories in git
+ git-hg can be used to transparently track Mercurial repositories in Git ones.
+ .
+ Incremental fetching of new changesets is supported. Pushing back to Mercurial
+ is supported but experimental.
+ .
+ git-hg internally uses hg-fast-export to work with a local Mercurial
+ repository stored under .git/ directory.
