@@ -94,7 +94,7 @@ function git-hg-clone {
 
 function git-hg-fetch {
     check-hg-fast-export
-    hg -R .git/hgcheckout pull
+    hg -R .git/hgcheckout pull --rebase
     (
 	cd .git/hgremote
 	$HG_FAST_EXPORT
@@ -104,7 +104,11 @@ function git-hg-fetch {
 
 function git-hg-pull {
     git-hg-fetch
-    git merge hg/$(git-current-branch)
+    if [ "--rebase" = "$1" ]; then
+        git rebase hg/$(git-current-branch)
+    else
+        git merge hg/$(git-current-branch)
+    fi
 }
 
 function git-hg-checkout {
@@ -126,7 +130,8 @@ function usage {
     echo ""
     echo "To work with a cloned mercurial repo use: "
     echo "  fetch                   fetch latest branches from mercurial"
-    echo "  pull                    fetch and merge the into the current branch"
+    echo "  pull [ --rebase ]       fetch and merge (or rebase) into the current branch"
+    echo "  push                    push changes back to mercurial"
     echo "  checkout branch_name    checkout a mercurial branch"
 }
 
@@ -138,7 +143,7 @@ case "$1" in
 	git-hg-fetch
 	;;
     pull)
-	git-hg-pull
+	git-hg-pull $2
 	;;
     checkout)
 	git-hg-checkout $2
