@@ -26,13 +26,11 @@ Either add `/path/to/this/checkout/bin` to your `$PATH`, or symbolic link
 
 Alternatively you can execute
 
-  $ make
-  $ sudo make install
+        $ make
+        $ sudo make install
 
-to install the script and all required fast-export files in
-/usr/local/.  The destination can be changed by setting the prefix.
-
-  $ make prefix=/usr install
+to install the script and all required fast-export files in `/usr/local` (you
+can change the destination by passing eg `prefix=/usr` to make install)
 
 ## Usage ##
 
@@ -51,6 +49,10 @@ to install the script and all required fast-export files in
 - Checkout a new branch from hg:
 
         $ git-hg checkout branch_name
+        
+- Push changes back to hg, optionally to a specific destination:
+
+		$ git-hg push [destination]
 
 ## Structure ##
 
