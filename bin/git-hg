@@ -53,8 +53,8 @@ function check-hg-fast-export {
 	    echo looking good > /dev/null
 	else
 	    echo "error: executable not found, $HG_FAST_EXPORT"
-	    echo 'Possible fixes: run "git submodule update --init" in git-hg repo, or'
-	    echo 'install hg-fast-export executable in directory on $PATH.'
+	    echo ' install hg-fast-export executable in directory on $PATH,'
+	    echo ' see git://repo.or.cz/fast-export.git'
 	    exit 1
 	fi
     fi

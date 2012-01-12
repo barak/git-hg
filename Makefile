@@ -1,35 +1,34 @@
-prefix=/usr/local
-DESTDIR=
-BUILDDIR=build
-BINDIR=$(prefix)/bin
-LIBEXECDIR=$(prefix)/lib
+# Use standard variables: DESTDIR, prefix, bindir, libexecdir
 
-GITHGEXECDIR=$(LIBEXECDIR)/git-hg
-FASTEXPORTDIR=$(GITHGEXECDIR)/fast-export
+DESTDIR=
+prefix=/usr/local
+bindir=$(prefix)/bin
+libexecdir=$(prefix)/lib
+
+BUILDDIR=build
+
+GITHGEXECDIR=$(libexecdir)/git-hg
 
 INSTALL=/usr/bin/install -c
-SED=/bin/sed
+SED=sed
 
 GITHG_S=bin/git-hg
 GITHG_F=$(BUILDDIR)/git-hg
-HGFE_D=fast-export
-HGFE_F=$(HGFE_D)/hg-fast-export.sh $(HGFE_D)/hg-fast-export.py $(HGFE_D)/hg2git.py
 
-all: $(GITHG_F) $(HGFE_F)
+all: $(GITHG_F)
+
+$(GITHG_F): $(GITHG_S)
+	mkdir -p $(BUILDDIR)
+	$(SED) -e '/^[ \t]*GITHG_HOME=/s:=.*:='"'$(GITHGEXECDIR)'"':' $< > $@
+
+install: 
+	$(INSTALL) -d $(DESTDIR)$(bindir)
+	$(INSTALL) -m 755 $(GITHG_F) $(DESTDIR)$(bindir)/
+
+uninstall:
+	-rm -f $(DESTDIR)$(bindir)/git-hg
 
 clean:
 	rm -rf $(BUILDDIR)
 
-$(GITHG_F): $(GITHG_S)
-	mkdir -p $(BUILDDIR)
-	$(SED) -e '/^GITHG_HOME=/s:=.*:='"'$(GITHGEXECDIR)'"':' $< > $@
-
-$(HGFE_F):
-	git submodule update --init
-
-install: 
-	$(INSTALL) -d $(DESTDIR)$(BINDIR)
-	$(INSTALL) -m 755 $(GITHG_F) $(DESTDIR)$(BINDIR)/
-	$(INSTALL) -d $(DESTDIR)$(FASTEXPORTDIR)
-	$(INSTALL) -m 755 $(HGFE_F) $(DESTDIR)$(FASTEXPORTDIR)/
-
+.PHONY: all install uninstall clean
